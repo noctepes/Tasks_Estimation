@@ -19,13 +19,13 @@
   --radius:10px;--radius-sm:6px;
 }
 body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding:24px}
-.app{max-width:1200px;margin:0 auto}
+.app{max-width:1440px;margin:0 auto}
 
 /* Header */
-.header{display:flex;align-items:center;justify-content:space-between;margin-bottom:28px;padding-bottom:20px;border-bottom:1px solid var(--border)}
+.header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid var(--border)}
 .header h1{font-size:22px;font-weight:700;letter-spacing:-.3px;display:flex;align-items:center;gap:10px}
 .header h1 span{background:var(--accent);color:#0f1117;font-size:11px;font-weight:700;padding:3px 8px;border-radius:4px;letter-spacing:.5px}
-.header-actions{display:flex;gap:10px}
+.header-actions{display:flex;gap:8px;align-items:center}
 
 /* Buttons */
 .btn{font-family:inherit;font-size:13px;font-weight:600;border:none;border-radius:var(--radius-sm);padding:9px 18px;cursor:pointer;transition:all .15s ease;display:inline-flex;align-items:center;gap:7px}
@@ -33,22 +33,31 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .btn-primary:hover{filter:brightness(1.1);box-shadow:0 0 20px var(--accent-glow)}
 .btn-ghost{background:var(--surface2);color:var(--text-dim);border:1px solid var(--border)}
 .btn-ghost:hover{border-color:var(--border-light);color:var(--text)}
-.btn-danger{background:var(--red-dim);color:var(--red)}
-.btn-danger:hover{background:var(--red);color:#fff}
-.btn-sm{padding:6px 12px;font-size:12px}
+.btn-sm{padding:7px 13px;font-size:12px}
 .btn-icon{width:32px;height:32px;padding:0;display:grid;place-items:center;border-radius:var(--radius-sm);background:var(--surface2);border:1px solid var(--border);color:var(--text-dim);cursor:pointer;transition:all .15s}
 .btn-icon:hover{border-color:var(--border-light);color:var(--text)}
 .btn-icon.delete:hover{background:var(--red-dim);border-color:var(--red);color:var(--red)}
+.btn-present.active{background:var(--accent-dim);border-color:var(--accent);color:var(--accent)}
+
+/* Save indicator */
+#saveIndicator{font-size:11px;color:var(--green);display:flex;align-items:center;gap:4px;opacity:0;transition:opacity .4s;white-space:nowrap}
+
+/* Project bar */
+.project-bar{display:flex;gap:12px;margin-bottom:14px}
+.project-field{flex:1;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:12px 16px;display:flex;flex-direction:column;gap:4px;transition:border-color .15s}
+.project-field:focus-within{border-color:var(--border-light)}
+.project-field label{font-size:10px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:.8px}
+.project-input{font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;color:var(--text);background:transparent;border:none;outline:none;width:100%}
+.project-input::placeholder{color:var(--text-muted)}
 
 /* Config bar */
 .config-bar{display:flex;flex-direction:column;gap:14px;margin-bottom:20px}
 .config-presets{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px 20px}
 .config-presets label{font-size:11px;font-weight:600;color:var(--text-dim);text-transform:uppercase;letter-spacing:.8px;display:block;margin-bottom:8px}
 .config-sliders{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-.config-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px 20px;overflow:hidden}
-.config-card label{font-size:11px;font-weight:600;color:var(--text-dim);text-transform:uppercase;letter-spacing:.8px;display:block;margin-bottom:8px}
+.config-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px 20px;overflow:visible}
+.config-card label{font-size:11px;font-weight:600;color:var(--text-dim);text-transform:uppercase;letter-spacing:.8px;display:block;margin-bottom:10px}
 .config-card .value-row{display:flex;align-items:center;gap:10px}
-.config-card input[type="range"]{flex:1;accent-color:var(--accent);height:4px;min-width:0}
 .config-card .value-display{font-family:'JetBrains Mono',monospace;font-size:18px;font-weight:600;color:var(--accent);min-width:56px;text-align:right;white-space:nowrap;flex-shrink:0}
 .config-card .value-unit{font-size:11px;color:var(--text-muted)}
 .preset-chips{display:flex;gap:6px;flex-wrap:wrap}
@@ -56,9 +65,67 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .preset-chip:hover{border-color:var(--accent);color:var(--accent)}
 .preset-chip.active{background:var(--accent-dim);border-color:var(--accent);color:var(--accent)}
 
+/* ── Range input: custom thumb+track for all browsers ─────────── */
+.config-card input[type="range"]{
+  -webkit-appearance:none;
+  appearance:none;
+  flex:1;
+  min-width:0;
+  height:4px;
+  background:var(--surface3);
+  border-radius:2px;
+  outline:none;
+  cursor:pointer;
+  padding:0;
+}
+.config-card input[type="range"]::-webkit-slider-runnable-track{
+  height:4px;
+  background:var(--surface3);
+  border-radius:2px;
+}
+.config-card input[type="range"]::-webkit-slider-thumb{
+  -webkit-appearance:none;
+  width:16px;
+  height:16px;
+  border-radius:50%;
+  background:var(--accent);
+  cursor:grab;
+  margin-top:-6px;
+  box-shadow:0 0 0 3px var(--accent-dim);
+  transition:box-shadow .15s, background .15s;
+}
+.config-card input[type="range"]:hover::-webkit-slider-thumb{
+  box-shadow:0 0 0 5px var(--accent-dim);
+}
+.config-card input[type="range"]:active::-webkit-slider-thumb{
+  cursor:grabbing;
+  background:#fff;
+  box-shadow:0 0 0 5px var(--accent-glow);
+}
+.config-card input[type="range"]::-moz-range-track{
+  height:4px;
+  background:var(--surface3);
+  border-radius:2px;
+  border:none;
+}
+.config-card input[type="range"]::-moz-range-thumb{
+  width:16px;
+  height:16px;
+  border-radius:50%;
+  background:var(--accent);
+  cursor:grab;
+  border:none;
+  box-shadow:0 0 0 3px var(--accent-dim);
+}
+.config-card input[type="range"]:active::-moz-range-thumb{
+  cursor:grabbing;
+  background:#fff;
+}
+/* ──────────────────────────────────────────────────────────────── */
+
 /* Table */
-.table-wrap{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:20px}
-table{width:100%;border-collapse:collapse}
+.table-wrap{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow-x:auto;overflow-y:hidden;margin-bottom:20px}
+table{width:100%;min-width:1000px;border-collapse:collapse}
 thead th{font-size:11px;font-weight:600;color:var(--text-dim);text-transform:uppercase;letter-spacing:.8px;padding:14px 12px;text-align:left;border-bottom:1px solid var(--border);background:var(--surface2);position:sticky;top:0;white-space:nowrap}
 thead th.center{text-align:center}
 tbody td{padding:8px 12px;border-bottom:1px solid var(--border);vertical-align:middle}
@@ -71,7 +138,9 @@ tbody tr:hover{background:rgba(108,159,255,.03)}
 .t-input:focus{outline:none;border-color:var(--accent);background:var(--bg);box-shadow:0 0 0 3px var(--accent-dim)}
 .t-input::placeholder{color:var(--text-muted)}
 .t-input.num{font-family:'JetBrains Mono',monospace;text-align:center;width:80px}
-.t-input.task-name{min-width:200px}
+.t-input.task-name{min-width:180px}
+.t-input.notes{font-size:12px;color:var(--text-dim);min-width:130px}
+.t-input.notes:focus{color:var(--text)}
 .t-select{font-family:inherit;font-size:13px;color:var(--text);background:var(--surface3);border:1px solid transparent;border-radius:var(--radius-sm);padding:8px 12px;cursor:pointer;transition:all .15s;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238b90a0' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;padding-right:30px}
 .t-select:focus{outline:none;border-color:var(--accent)}
 .t-select option{background:#1a1d27;color:#f0f1f5;padding:8px}
@@ -106,13 +175,6 @@ tbody tr:hover{background:rgba(108,159,255,.03)}
 /* Breakdown */
 .breakdown{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:20px}
 .breakdown h3{font-size:13px;font-weight:600;color:var(--text);text-transform:uppercase;letter-spacing:.5px;margin-bottom:14px;display:flex;align-items:center;gap:8px}
-.breakdown-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px}
-.breakdown-item{background:var(--surface2);border-radius:var(--radius-sm);padding:14px}
-.breakdown-item .bi-label{font-size:11px;color:var(--text-muted);margin-bottom:4px}
-.breakdown-item .bi-value{font-family:'JetBrains Mono',monospace;font-size:16px;font-weight:600}
-.breakdown-item .bi-sub{font-size:11px;color:var(--text-muted);margin-top:2px}
-
-/* Visual bar */
 .time-bar{height:8px;background:var(--surface3);border-radius:4px;overflow:hidden;display:flex;margin-top:8px}
 .time-bar .seg{height:100%;transition:width .3s ease}
 .time-bar .seg.master{background:var(--accent)}
@@ -135,6 +197,27 @@ tbody tr:hover{background:rgba(108,159,255,.03)}
 /* Footer */
 .footer{text-align:center;padding:20px;color:var(--text-muted);font-size:12px}
 
+/* ── Present / Lock mode ─────────────────────────────────────────── */
+.app.locked .config-bar,
+.app.locked .project-bar,
+.app.locked .add-row-zone,
+.app.locked .mobile-cards-add { display:none !important }
+.app.locked .th-notes,
+.app.locked .td-notes,
+.app.locked .th-delete,
+.app.locked .td-delete { display:none }
+/* ────────────────────────────────────────────────────────────────── */
+
+/* Copy toast */
+#copyToast{
+  position:fixed;bottom:28px;left:50%;
+  transform:translateX(-50%) translateY(12px);
+  background:var(--surface2);border:1px solid var(--green);color:var(--green);
+  font-size:12px;font-weight:600;padding:9px 20px;border-radius:20px;
+  opacity:0;transition:all .25s ease;pointer-events:none;z-index:999;
+}
+#copyToast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
 /* Responsive */
 @media(max-width:1024px){
   .config-sliders{grid-template-columns:repeat(3,1fr)}
@@ -142,14 +225,11 @@ tbody tr:hover{background:rgba(108,159,255,.03)}
 @media(max-width:768px){
   body{padding:14px 10px}
   .app{max-width:100%}
-
-  /* Header */
   .header{flex-direction:column;gap:10px;align-items:flex-start;margin-bottom:16px;padding-bottom:14px}
   .header h1{font-size:18px}
-  .header-actions{width:100%;display:flex}
+  .header-actions{width:100%;display:flex;flex-wrap:wrap}
   .header-actions .btn{flex:1;justify-content:center;font-size:12px;padding:8px 12px}
-
-  /* Config - compact sliders in 3-col */
+  .project-bar{flex-direction:column;gap:8px;margin-bottom:10px}
   .config-bar{gap:10px;margin-bottom:12px}
   .config-presets{padding:12px 14px}
   .config-sliders{grid-template-columns:repeat(3,1fr);gap:8px}
@@ -157,17 +237,12 @@ tbody tr:hover{background:rgba(108,159,255,.03)}
   .config-card.config-slim label{font-size:9px;letter-spacing:.5px;margin-bottom:5px}
   .config-card.config-slim .value-display{font-size:14px;min-width:40px}
   .config-card.config-slim .value-unit{font-size:9px}
-  .config-card.config-slim input[type="range"]{height:3px}
   .preset-chip{font-size:11px;padding:5px 11px}
-
-  /* Hide desktop table, show mobile cards */
   .desktop-table{display:none}
   .mobile-cards{display:flex;flex-direction:column;gap:10px;margin-bottom:12px}
   .mobile-cards-add{display:block}
-
-  /* Mobile task card */
   .m-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px;position:relative}
-  .m-card-head{display:flex;gap:8px;align-items:center;margin-bottom:10px;padding-right:0}
+  .m-card-head{display:flex;gap:8px;align-items:center;margin-bottom:10px}
   .m-card-num{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-muted);background:var(--surface3);width:24px;height:24px;border-radius:4px;display:grid;place-items:center;flex-shrink:0}
   .m-card-head input{flex:1;font-family:inherit;font-size:16px;color:var(--text);background:var(--surface3);border:1px solid transparent;border-radius:var(--radius-sm);padding:8px 10px;min-width:0}
   .m-card-head input:focus{outline:none;border-color:var(--accent)}
@@ -184,8 +259,6 @@ tbody tr:hover{background:rgba(108,159,255,.03)}
   .m-card-result .m-res span{font-size:9px;color:var(--text-muted);text-transform:uppercase;display:block;margin-bottom:2px}
   .m-card-result .m-res b{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--text-dim)}
   .m-card-result .m-res.total b{color:var(--accent);font-size:14px}
-
-  /* Summary horizontal rows */
   .summary-strip{flex-direction:column;gap:0;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:14px}
   .ss-item,.ss-total{flex-direction:row;align-items:center;justify-content:space-between;border-radius:0;border:none;border-bottom:1px solid var(--border);min-width:auto;padding:12px 16px;gap:8px}
   .ss-item:last-of-type{border-bottom:1px solid var(--border)}
@@ -195,8 +268,6 @@ tbody tr:hover{background:rgba(108,159,255,.03)}
   .ss-total{border-bottom:none;background:var(--surface2)}
   .ss-total .ss-value{font-size:20px;text-align:right;flex:1}
   .ss-total .ss-sub{margin-top:0;text-align:right;min-width:100px}
-
-  /* Breakdown */
   .breakdown{padding:14px;margin-bottom:14px}
   .add-row-btn{font-size:12px;padding:8px 18px}
   .btn-icon{width:28px;height:28px}
@@ -210,17 +281,33 @@ tbody tr:hover{background:rgba(108,159,255,.03)}
 </head>
 <body>
 
-<div class="app">
+<div class="app" id="appRoot">
+
   <!-- Header -->
   <div class="header">
     <h1>⏱ Task Estimation <span>CALC</span></h1>
     <div class="header-actions">
       <button class="btn btn-ghost" onclick="resetAll()">↻ Reset</button>
+      <span id="saveIndicator">✓ Saved</span>
+      <button class="btn btn-ghost btn-sm" onclick="copySummary()" title="Copy summary to clipboard">📋 Copy</button>
+      <button class="btn btn-ghost btn-sm btn-present" id="presentBtn" onclick="togglePresent()">👁 Present</button>
       <button class="btn btn-primary" onclick="exportXLSX()">↓ Export Excel</button>
     </div>
   </div>
 
-  <!-- Presets -->
+  <!-- Project Info -->
+  <div class="project-bar" id="projectBar">
+    <div class="project-field">
+      <label>Project</label>
+      <input id="projectName" class="project-input" placeholder="Project name..." oninput="saveState()">
+    </div>
+    <div class="project-field">
+      <label>Client</label>
+      <input id="clientName" class="project-input" placeholder="Client name..." oninput="saveState()">
+    </div>
+  </div>
+
+  <!-- Presets + Sliders -->
   <div class="config-bar">
     <div class="config-card config-presets">
       <label>Quick Presets</label>
@@ -243,7 +330,7 @@ tbody tr:hover{background:rgba(108,159,255,.03)}
       <div class="config-card config-slim">
         <label>Corr. Rounds</label>
         <div class="value-row">
-          <input type="range" id="correctionRange" min="0" max="5" value="1" oninput="updateCorrection()">
+          <input type="range" id="correctionRange" min="0" max="10" value="1" oninput="updateCorrection()">
           <div class="value-display" id="correctionDisplay">1<span class="value-unit"> rnd</span></div>
         </div>
       </div>
@@ -269,10 +356,11 @@ tbody tr:hover{background:rgba(108,159,255,.03)}
           <th class="center">Min/Master</th>
           <th class="center">Version Qty</th>
           <th class="center">Min/Version</th>
+          <th class="th-notes">Notes</th>
           <th class="center">Master (h)</th>
           <th class="center">Version (h)</th>
           <th class="center">Subtotal (h)</th>
-          <th style="width:40px"></th>
+          <th class="th-delete" style="width:40px"></th>
         </tr>
       </thead>
       <tbody id="taskBody"></tbody>
@@ -289,7 +377,7 @@ tbody tr:hover{background:rgba(108,159,255,.03)}
   </div>
 
   <!-- Summary -->
-  <div class="summary-strip" id="summaryCards">
+  <div class="summary-strip">
     <div class="ss-item blue">
       <div class="ss-label">Base Time</div>
       <div class="ss-value" id="sumBase">0.00h</div>
@@ -298,12 +386,12 @@ tbody tr:hover{background:rgba(108,159,255,.03)}
     <div class="ss-item orange">
       <div class="ss-label">Buffer</div>
       <div class="ss-value" id="sumBuffer">0.00h</div>
-      <div class="ss-sub" id="sumBufferPct">15%</div>
+      <div class="ss-sub" id="sumBufferPct">15% of base</div>
     </div>
     <div class="ss-item red">
       <div class="ss-label">Corrections</div>
       <div class="ss-value" id="sumCorr">0.00h</div>
-      <div class="ss-sub" id="sumCorrInfo">1 round × 15 min</div>
+      <div class="ss-sub" id="sumCorrInfo">0 tasks × 1 rnd × 15 min</div>
     </div>
     <div class="ss-item purple">
       <div class="ss-label">Total Tasks</div>
@@ -320,7 +408,7 @@ tbody tr:hover{background:rgba(108,159,255,.03)}
   <!-- Breakdown -->
   <div class="breakdown">
     <h3>📊 Time Breakdown</h3>
-    <div class="time-bar" id="timeBar">
+    <div class="time-bar">
       <div class="seg master" style="width:0%"></div>
       <div class="seg version" style="width:0%"></div>
       <div class="seg buffer" style="width:0%"></div>
@@ -337,29 +425,86 @@ tbody tr:hover{background:rgba(108,159,255,.03)}
   <div class="footer">Task Estimation Calculator — Built for speed ⚡</div>
 </div>
 
+<div id="copyToast">✓ Copied to clipboard</div>
+
 <script>
 const PRESETS = {
-  banner:    { label:'HTML5 Banner',  minMaster:90,  minVersion:35, corrMin:15 },
-  richmedia: { label:'Rich Media',    minMaster:180, minVersion:60, corrMin:30 },
-  edm:       { label:'EDM / Email',   minMaster:120, minVersion:30, corrMin:20 },
-  landing:   { label:'Landing Page',  minMaster:480, minVersion:120,corrMin:45 },
-  custom:    { label:'Custom',        minMaster:0,   minVersion:0,  corrMin:15 }
+  banner:    { label:'HTML5 Banner',  minMaster:90,  minVersion:35,  corrMin:15 },
+  richmedia: { label:'Rich Media',    minMaster:180, minVersion:60,  corrMin:30 },
+  edm:       { label:'EDM / Email',   minMaster:120, minVersion:30,  corrMin:20 },
+  landing:   { label:'Landing Page',  minMaster:480, minVersion:120, corrMin:45 },
+  custom:    { label:'Custom',        minMaster:0,   minVersion:0,   corrMin:15 }
 };
 
 let tasks = [];
 let taskCounter = 0;
 let currentPreset = null;
+let isPresenting = false;
 
+const STORAGE_KEY = 'taskEstimation_v1';
+
+/* ── LocalStorage ──────────────────────────────────────────────── */
+function saveState() {
+  const state = {
+    tasks,
+    taskCounter,
+    currentPreset,
+    buffer:     document.getElementById('bufferRange').value,
+    corrRounds: document.getElementById('correctionRange').value,
+    corrMin:    document.getElementById('corrMinRange').value,
+    projectName: document.getElementById('projectName').value,
+    clientName:  document.getElementById('clientName').value
+  };
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  const ind = document.getElementById('saveIndicator');
+  if (ind) {
+    ind.style.opacity = '1';
+    clearTimeout(ind._t);
+    ind._t = setTimeout(() => { ind.style.opacity = '0'; }, 1500);
+  }
+}
+
+function loadState() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) { addTask(); return; }
+    const s = JSON.parse(raw);
+    tasks        = s.tasks || [];
+    taskCounter  = s.taskCounter || 0;
+    currentPreset = s.currentPreset || null;
+
+    if (currentPreset) {
+      document.querySelectorAll('.preset-chip').forEach(c => {
+        if (c.getAttribute('onclick')?.includes(`'${currentPreset}'`)) c.classList.add('active');
+      });
+    }
+    if (s.projectName) document.getElementById('projectName').value = s.projectName;
+    if (s.clientName)  document.getElementById('clientName').value  = s.clientName;
+
+    document.getElementById('bufferRange').value     = s.buffer     ?? 15; updateBuffer(true);
+    document.getElementById('correctionRange').value = s.corrRounds ?? 1;  updateCorrection(true);
+    document.getElementById('corrMinRange').value    = s.corrMin    ?? 15; updateCorrMin(true);
+
+    if (tasks.length === 0) addTask();
+    else render(true);
+  } catch(e) {
+    console.warn('loadState failed', e);
+    addTask();
+  }
+}
+
+/* ── Tasks ─────────────────────────────────────────────────────── */
 function addTask(preset) {
   const p = preset || (currentPreset ? PRESETS[currentPreset] : null);
   tasks.push({
     id: ++taskCounter,
     name: '',
     type: currentPreset || 'custom',
-    masterQty: 0,
-    minMaster: p ? p.minMaster : 0,
+    masterQty:  0,
+    minMaster:  p ? p.minMaster  : 0,
     versionQty: 0,
-    minVersion: p ? p.minVersion : 0
+    minVersion: p ? p.minVersion : 0,
+    notes: ''
   });
   render();
 }
@@ -377,7 +522,7 @@ function updateField(id, field, value) {
   } else if (field === 'type') {
     t.type = value;
     if (PRESETS[value] && value !== 'custom') {
-      t.minMaster = PRESETS[value].minMaster;
+      t.minMaster  = PRESETS[value].minMaster;
       t.minVersion = PRESETS[value].minVersion;
     }
   } else {
@@ -396,34 +541,36 @@ function applyPreset(key) {
   }
 }
 
-function updateBuffer() {
+/* ── Sliders ───────────────────────────────────────────────────── */
+function updateBuffer(skipSave) {
   const v = document.getElementById('bufferRange').value;
   document.getElementById('bufferDisplay').innerHTML = v + '<span class="value-unit">%</span>';
-  recalc();
+  recalc(skipSave);
 }
-function updateCorrection() {
+function updateCorrection(skipSave) {
   const v = document.getElementById('correctionRange').value;
   document.getElementById('correctionDisplay').innerHTML = v + '<span class="value-unit"> rnd</span>';
-  recalc();
+  recalc(skipSave);
 }
-function updateCorrMin() {
+function updateCorrMin(skipSave) {
   const v = document.getElementById('corrMinRange').value;
   document.getElementById('corrMinDisplay').innerHTML = v + '<span class="value-unit"> min</span>';
-  recalc();
+  recalc(skipSave);
 }
 
-function render() {
+/* ── Render ────────────────────────────────────────────────────── */
+function render(skipSave) {
   const tbody = document.getElementById('taskBody');
   const mcont = document.getElementById('mobileCards');
   tbody.innerHTML = '';
   mcont.innerHTML = '';
 
   tasks.forEach((t, i) => {
-    const mh = (t.masterQty * t.minMaster) / 60;
-    const vh = (t.versionQty * t.minVersion) / 60;
+    const mh  = (t.masterQty  * t.minMaster)  / 60;
+    const vh  = (t.versionQty * t.minVersion) / 60;
     const sub = mh + vh;
 
-    // Desktop table row
+    /* Desktop row */
     const tr = document.createElement('tr');
     tr.innerHTML = `
       <td class="row-num">${i + 1}</td>
@@ -433,18 +580,19 @@ function render() {
           ${Object.entries(PRESETS).map(([k,v]) => `<option value="${k}" ${t.type===k?'selected':''}>${v.label}</option>`).join('')}
         </select>
       </td>
-      <td><input class="t-input num" type="number" min="0" value="${t.masterQty}" onchange="updateField(${t.id},'masterQty',this.value)"></td>
-      <td><input class="t-input num" type="number" min="0" value="${t.minMaster}" onchange="updateField(${t.id},'minMaster',this.value)"></td>
+      <td><input class="t-input num" type="number" min="0" value="${t.masterQty}"  onchange="updateField(${t.id},'masterQty',this.value)"></td>
+      <td><input class="t-input num" type="number" min="0" value="${t.minMaster}"  onchange="updateField(${t.id},'minMaster',this.value)"></td>
       <td><input class="t-input num" type="number" min="0" value="${t.versionQty}" onchange="updateField(${t.id},'versionQty',this.value)"></td>
       <td><input class="t-input num" type="number" min="0" value="${t.minVersion}" onchange="updateField(${t.id},'minVersion',this.value)"></td>
+      <td class="td-notes"><input class="t-input notes" value="${esc(t.notes||'')}" placeholder="Notes / scope..." onchange="updateField(${t.id},'notes',this.value)"></td>
       <td class="computed">${mh.toFixed(2)}</td>
       <td class="computed">${vh.toFixed(2)}</td>
       <td class="computed highlight">${sub.toFixed(2)}</td>
-      <td><button class="btn-icon delete" onclick="removeTask(${t.id})" title="Remove">✕</button></td>
+      <td class="td-delete"><button class="btn-icon delete" onclick="removeTask(${t.id})" title="Remove">✕</button></td>
     `;
     tbody.appendChild(tr);
 
-    // Mobile card
+    /* Mobile card */
     const card = document.createElement('div');
     card.className = 'm-card';
     card.innerHTML = `
@@ -457,8 +605,8 @@ function render() {
         <button class="m-delete" onclick="removeTask(${t.id})">✕</button>
       </div>
       <div class="m-card-grid">
-        <div class="m-card-field" onclick="this.querySelector('input').focus();this.querySelector('input').select()"><span>Master Qty</span><input type="number" inputmode="numeric" pattern="[0-9]*" min="0" value="${t.masterQty}" onchange="updateField(${t.id},'masterQty',this.value)" onfocus="this.select()"></div>
-        <div class="m-card-field" onclick="this.querySelector('input').focus();this.querySelector('input').select()"><span>Min/Master</span><input type="number" inputmode="numeric" pattern="[0-9]*" min="0" value="${t.minMaster}" onchange="updateField(${t.id},'minMaster',this.value)" onfocus="this.select()"></div>
+        <div class="m-card-field" onclick="this.querySelector('input').focus();this.querySelector('input').select()"><span>Master Qty</span><input type="number" inputmode="numeric" pattern="[0-9]*" min="0" value="${t.masterQty}"  onchange="updateField(${t.id},'masterQty',this.value)"  onfocus="this.select()"></div>
+        <div class="m-card-field" onclick="this.querySelector('input').focus();this.querySelector('input').select()"><span>Min/Master</span><input type="number" inputmode="numeric" pattern="[0-9]*" min="0" value="${t.minMaster}"  onchange="updateField(${t.id},'minMaster',this.value)"  onfocus="this.select()"></div>
         <div class="m-card-field" onclick="this.querySelector('input').focus();this.querySelector('input').select()"><span>Version Qty</span><input type="number" inputmode="numeric" pattern="[0-9]*" min="0" value="${t.versionQty}" onchange="updateField(${t.id},'versionQty',this.value)" onfocus="this.select()"></div>
         <div class="m-card-field" onclick="this.querySelector('input').focus();this.querySelector('input').select()"><span>Min/Ver</span><input type="number" inputmode="numeric" pattern="[0-9]*" min="0" value="${t.minVersion}" onchange="updateField(${t.id},'minVersion',this.value)" onfocus="this.select()"></div>
       </div>
@@ -470,249 +618,326 @@ function render() {
     `;
     mcont.appendChild(card);
   });
-  recalc();
+  recalc(skipSave);
 }
 
-function recalc() {
-  const buffer = parseInt(document.getElementById('bufferRange').value) / 100;
+/* ── Recalc ────────────────────────────────────────────────────── */
+function recalc(skipSave) {
+  const buffer     = parseInt(document.getElementById('bufferRange').value)     / 100;
   const corrRounds = parseInt(document.getElementById('correctionRange').value);
-  const corrMin = parseInt(document.getElementById('corrMinRange').value);
+  const corrMin    = parseInt(document.getElementById('corrMinRange').value);
 
   let totalMasterH = 0, totalVersionH = 0, totalMasterQty = 0, totalVersionQty = 0, totalTasks = 0;
-
   tasks.forEach(t => {
-    totalMasterH += (t.masterQty * t.minMaster) / 60;
-    totalVersionH += (t.versionQty * t.minVersion) / 60;
-    totalMasterQty += t.masterQty;
+    totalMasterH   += (t.masterQty  * t.minMaster)  / 60;
+    totalVersionH  += (t.versionQty * t.minVersion) / 60;
+    totalMasterQty  += t.masterQty;
     totalVersionQty += t.versionQty;
-    totalTasks += t.masterQty + t.versionQty;
+    totalTasks      += t.masterQty + t.versionQty;
   });
 
-  const baseH = totalMasterH + totalVersionH;
-  const bufferH = baseH * buffer;
-  const corrH = (totalTasks * corrRounds * corrMin) / 60;
-  const totalH = baseH + bufferH + corrH;
+  const baseH    = totalMasterH + totalVersionH;
+  const bufferH  = baseH * buffer;
+  const corrH    = (totalTasks * corrRounds * corrMin) / 60;
+  const totalH   = baseH + bufferH + corrH;
   const totalDays = totalH / 8;
 
-  // Summary cards
-  document.getElementById('sumBase').textContent = baseH.toFixed(2) + 'h';
+  document.getElementById('sumBase').textContent    = baseH.toFixed(2) + 'h';
   document.getElementById('sumBaseDay').textContent = (baseH/8).toFixed(2) + ' days';
-  document.getElementById('sumBuffer').textContent = bufferH.toFixed(2) + 'h';
+  document.getElementById('sumBuffer').textContent  = bufferH.toFixed(2) + 'h';
   document.getElementById('sumBufferPct').textContent = (buffer*100).toFixed(0) + '% of base';
-  document.getElementById('sumCorr').textContent = corrH.toFixed(2) + 'h';
+  document.getElementById('sumCorr').textContent    = corrH.toFixed(2) + 'h';
   document.getElementById('sumCorrInfo').textContent = `${totalTasks} tasks × ${corrRounds} rnd × ${corrMin} min`;
-  document.getElementById('sumTotal').textContent = totalH.toFixed(2) + 'h';
+  document.getElementById('sumTotal').textContent   = totalH.toFixed(2) + 'h';
   document.getElementById('sumTotalDay').textContent = totalDays.toFixed(2) + ' days (8h/day)';
-  document.getElementById('sumTasks').textContent = totalTasks;
+  document.getElementById('sumTasks').textContent   = totalTasks;
   document.getElementById('sumTasksInfo').textContent = `${totalMasterQty} master + ${totalVersionQty} version`;
 
-  // Bar
-  const total = totalMasterH + totalVersionH + bufferH + corrH || 1;
-  document.querySelector('.seg.master').style.width = (totalMasterH/total*100)+'%';
-  document.querySelector('.seg.version').style.width = (totalVersionH/total*100)+'%';
-  document.querySelector('.seg.buffer').style.width = (bufferH/total*100)+'%';
-  document.querySelector('.seg.correction').style.width = (corrH/total*100)+'%';
+  const barTotal = totalMasterH + totalVersionH + bufferH + corrH || 1;
+  document.querySelector('.seg.master').style.width    = (totalMasterH / barTotal * 100) + '%';
+  document.querySelector('.seg.version').style.width   = (totalVersionH / barTotal * 100) + '%';
+  document.querySelector('.seg.buffer').style.width    = (bufferH       / barTotal * 100) + '%';
+  document.querySelector('.seg.correction').style.width = (corrH        / barTotal * 100) + '%';
 
-  document.getElementById('legMaster').textContent = totalMasterH.toFixed(2)+'h';
-  document.getElementById('legVersion').textContent = totalVersionH.toFixed(2)+'h';
-  document.getElementById('legBuffer').textContent = bufferH.toFixed(2)+'h';
-  document.getElementById('legCorr').textContent = corrH.toFixed(2)+'h';
+  document.getElementById('legMaster').textContent  = totalMasterH.toFixed(2) + 'h';
+  document.getElementById('legVersion').textContent = totalVersionH.toFixed(2) + 'h';
+  document.getElementById('legBuffer').textContent  = bufferH.toFixed(2) + 'h';
+  document.getElementById('legCorr').textContent    = corrH.toFixed(2) + 'h';
+
+  if (!skipSave) saveState();
 }
 
-function esc(s) { return s.replace(/"/g, '&quot;').replace(/</g, '&lt;'); }
+/* ── Helpers ───────────────────────────────────────────────────── */
+function esc(s) {
+  return (s || '').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');
+}
 
 function resetAll() {
   if (!confirm('Reset everything?')) return;
   tasks = [];
   taskCounter = 0;
   currentPreset = null;
+  document.getElementById('projectName').value = '';
+  document.getElementById('clientName').value  = '';
   document.querySelectorAll('.preset-chip').forEach(c => c.classList.remove('active'));
-  document.getElementById('bufferRange').value = 15; updateBuffer();
-  document.getElementById('correctionRange').value = 1; updateCorrection();
-  document.getElementById('corrMinRange').value = 15; updateCorrMin();
+  document.getElementById('bufferRange').value     = 15; updateBuffer();
+  document.getElementById('correctionRange').value = 1;  updateCorrection();
+  document.getElementById('corrMinRange').value    = 15; updateCorrMin();
   render();
 }
 
+/* ── Copy Summary ──────────────────────────────────────────────── */
+function copySummary() {
+  const proj   = document.getElementById('projectName').value;
+  const client = document.getElementById('clientName').value;
+  const totalH = document.getElementById('sumTotal').textContent;
+  const totalD = document.getElementById('sumTotalDay').textContent;
+  const baseH  = document.getElementById('sumBase').textContent;
+  const bufH   = document.getElementById('sumBuffer').textContent;
+  const corrH  = document.getElementById('sumCorr').textContent;
+  const buffer = document.getElementById('bufferRange').value;
+  const corrR  = document.getElementById('correctionRange').value;
+  const corrM  = document.getElementById('corrMinRange').value;
+  const tasks_ = document.getElementById('sumTasksInfo').textContent;
+  const date   = new Date().toLocaleDateString('en-GB', {day:'2-digit',month:'short',year:'numeric'});
+
+  const lines = [];
+  if (proj || client) lines.push(`📋 ${[proj, client].filter(Boolean).join(' — ')}`);
+  lines.push(`Date: ${date}  |  Tasks: ${tasks_}`);
+  lines.push(`Base: ${baseH}  |  Buffer (${buffer}%): ${bufH}  |  Corrections (${corrR}rnd × ${corrM}min): ${corrH}`);
+  lines.push('─'.repeat(46));
+  lines.push(`TOTAL: ${totalH}  (${totalD})`);
+
+  if (tasks.length > 0) {
+    lines.push('');
+    tasks.forEach((t, i) => {
+      const sub = ((t.masterQty * t.minMaster) + (t.versionQty * t.minVersion)) / 60;
+      const note = t.notes ? `  — ${t.notes}` : '';
+      lines.push(`${i+1}. ${t.name || '(unnamed)'}${note}  →  ${sub.toFixed(2)}h`);
+    });
+  }
+
+  const text = lines.join('\n');
+  const showToast = () => {
+    const toast = document.getElementById('copyToast');
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 2500);
+  };
+
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(text).then(showToast).catch(() => fallbackCopy(text, showToast));
+  } else {
+    fallbackCopy(text, showToast);
+  }
+}
+
+function fallbackCopy(text, cb) {
+  const ta = document.createElement('textarea');
+  ta.value = text;
+  ta.style.cssText = 'position:fixed;opacity:0;top:0;left:0';
+  document.body.appendChild(ta);
+  ta.select();
+  document.execCommand('copy');
+  document.body.removeChild(ta);
+  cb();
+}
+
+/* ── Present mode ──────────────────────────────────────────────── */
+function togglePresent() {
+  isPresenting = !isPresenting;
+  const app = document.getElementById('appRoot');
+  const btn = document.getElementById('presentBtn');
+  if (isPresenting) {
+    app.classList.add('locked');
+    btn.classList.add('active');
+    btn.textContent = '✕ Exit';
+  } else {
+    app.classList.remove('locked');
+    btn.classList.remove('active');
+    btn.innerHTML = '👁 Present';
+  }
+}
+
+/* ── Export XLSX ───────────────────────────────────────────────── */
 async function exportXLSX() {
-  const buffer = parseInt(document.getElementById('bufferRange').value);
+  const buffer     = parseInt(document.getElementById('bufferRange').value);
   const corrRounds = parseInt(document.getElementById('correctionRange').value);
-  const corrMin = parseInt(document.getElementById('corrMinRange').value);
+  const corrMin    = parseInt(document.getElementById('corrMinRange').value);
+  const projName   = document.getElementById('projectName').value  || '';
+  const clientName = document.getElementById('clientName').value   || '';
 
   const wb = new ExcelJS.Workbook();
   const ws = wb.addWorksheet('Estimation');
 
-  // Colors
-  const cBg = 'FF0F1117';
-  const cSurface = 'FF1A1D27';
-  const cSurface2 = 'FF232733';
-  const cBorder = 'FF333847';
-  const cText = 'FFF0F1F5';
-  const cDim = 'FFB8BCC8';
-  const cAccent = 'FF6C9FFF';
-  const cGreen = 'FF4ECB8D';
-  const cOrange = 'FFF0A050';
-  const cRed = 'FFF06060';
-  const cPurple = 'FFA07CFF';
-  const cWhite = 'FFFFFFFF';
+  const cBg      = 'FF0F1117', cSurface  = 'FF1A1D27', cSurface2 = 'FF232733';
+  const cBorder  = 'FF333847', cText     = 'FFF0F1F5', cDim      = 'FFB8BCC8';
+  const cAccent  = 'FF6C9FFF', cGreen    = 'FF4ECB8D', cOrange   = 'FFF0A050';
+  const cRed     = 'FFF06060', cPurple   = 'FFA07CFF', cWhite    = 'FFFFFFFF';
 
   const borderThin = { style:'thin', color:{argb:cBorder} };
-  const borders = { top:borderThin, left:borderThin, bottom:borderThin, right:borderThin };
+  const borders    = { top:borderThin, left:borderThin, bottom:borderThin, right:borderThin };
 
-  const fontHead = { name:'Segoe UI', size:11, bold:true, color:{argb:cWhite} };
-  const fontBody = { name:'Segoe UI', size:10, color:{argb:cText} };
-  const fontMono = { name:'Consolas', size:10, color:{argb:cDim} };
+  const fontHead  = { name:'Segoe UI', size:11, bold:true, color:{argb:cWhite} };
+  const fontBody  = { name:'Segoe UI', size:10, color:{argb:cText} };
+  const fontMono  = { name:'Consolas', size:10, color:{argb:cDim} };
   const fontMonoB = { name:'Consolas', size:10, bold:true, color:{argb:cAccent} };
   const fontLabel = { name:'Segoe UI', size:10, bold:true, color:{argb:cDim} };
   const fontGrand = { name:'Consolas', size:12, bold:true, color:{argb:cGreen} };
+  const fontNotes = { name:'Segoe UI', size:10, italic:true, color:{argb:cDim} };
 
-  // Column widths
+  // 11 columns now (added Notes)
   ws.columns = [
-    { width:5 },  // No
-    { width:28 }, // Task Name
-    { width:15 }, // Type
-    { width:12 }, // Master Qty
-    { width:13 }, // Min/Master
-    { width:12 }, // Version Qty
-    { width:13 }, // Min/Version
-    { width:12 }, // Master(h)
-    { width:12 }, // Version(h)
-    { width:13 }, // Subtotal(h)
+    { width:5  },  // #
+    { width:28 },  // Task Name
+    { width:15 },  // Type
+    { width:12 },  // Master Qty
+    { width:13 },  // Min/Master
+    { width:12 },  // Version Qty
+    { width:13 },  // Min/Version
+    { width:22 },  // Notes
+    { width:12 },  // Master (h)
+    { width:12 },  // Version (h)
+    { width:13 },  // Subtotal (h)
   ];
 
-  // Fill entire background
-  for (let r = 1; r <= 30; r++) {
+  for (let r = 1; r <= 40; r++) {
     const row = ws.getRow(r);
-    for (let c = 1; c <= 10; c++) {
-      const cell = row.getCell(c);
-      cell.fill = { type:'pattern', pattern:'solid', fgColor:{argb:cBg} };
-    }
+    for (let c = 1; c <= 11; c++)
+      row.getCell(c).fill = { type:'pattern', pattern:'solid', fgColor:{argb:cBg} };
   }
 
-  // Title row
-  ws.mergeCells('A1:J1');
+  // Row 1 — Title
+  ws.mergeCells('A1:K1');
+  const titleParts = ['⏱  TASK ESTIMATION'];
+  if (projName)   titleParts.push(projName.toUpperCase());
+  if (clientName) titleParts.push(clientName);
   const titleCell = ws.getCell('A1');
-  titleCell.value = '⏱  TASK ESTIMATION';
-  titleCell.font = { name:'Segoe UI', size:14, bold:true, color:{argb:cAccent} };
-  titleCell.fill = { type:'pattern', pattern:'solid', fgColor:{argb:cSurface} };
+  titleCell.value = titleParts.join('  —  ');
+  titleCell.font  = { name:'Segoe UI', size:14, bold:true, color:{argb:cAccent} };
+  titleCell.fill  = { type:'pattern', pattern:'solid', fgColor:{argb:cSurface} };
   titleCell.alignment = { vertical:'middle', horizontal:'left' };
   titleCell.border = borders;
-  ws.getRow(1).height = 32;
+  ws.getRow(1).height = 34;
 
-  // Config info row
-  ws.mergeCells('A2:J2');
+  // Row 2 — Config meta
+  ws.mergeCells('A2:K2');
   const cfgCell = ws.getCell('A2');
   cfgCell.value = `Buffer: ${buffer}%  |  Corrections: ${corrRounds} round(s) × ${corrMin} min/task  |  Date: ${new Date().toLocaleDateString()}`;
-  cfgCell.font = { name:'Segoe UI', size:9, italic:true, color:{argb:cDim} };
-  cfgCell.fill = { type:'pattern', pattern:'solid', fgColor:{argb:cSurface} };
+  cfgCell.font  = { name:'Segoe UI', size:9, italic:true, color:{argb:cDim} };
+  cfgCell.fill  = { type:'pattern', pattern:'solid', fgColor:{argb:cSurface} };
   cfgCell.alignment = { vertical:'middle' };
   cfgCell.border = borders;
   ws.getRow(2).height = 22;
 
-  // Empty spacer
   ws.getRow(3).height = 8;
 
-  // Header row (row 4)
-  const headers = ['#','Task Name','Type','Master Qty','Min/Master','Version Qty','Min/Version','Master (h)','Version (h)','Subtotal (h)'];
-  const headerRow = ws.getRow(4);
-  headerRow.height = 28;
+  // Row 4 — Headers
+  const headers = ['#','Task Name','Type','Master Qty','Min/Master','Version Qty','Min/Version','Notes','Master (h)','Version (h)','Subtotal (h)'];
+  const hRow = ws.getRow(4);
+  hRow.height = 28;
   headers.forEach((h, i) => {
-    const cell = headerRow.getCell(i + 1);
+    const cell = hRow.getCell(i + 1);
     cell.value = h;
-    cell.font = fontHead;
-    cell.fill = { type:'pattern', pattern:'solid', fgColor:{argb:'FF667EEA'} };
-    cell.alignment = { vertical:'middle', horizontal: i >= 3 ? 'center' : 'left' };
+    cell.font  = fontHead;
+    cell.fill  = { type:'pattern', pattern:'solid', fgColor:{argb:'FF667EEA'} };
+    cell.alignment = { vertical:'middle', horizontal: (i >= 3 && i !== 7) ? 'center' : 'left' };
     cell.border = borders;
   });
 
   // Data rows
-  let totalH = 0;
-  let startRow = 5;
+  let baseTotal = 0;
+  const startRow = 5;
   tasks.forEach((t, i) => {
-    const mh = (t.masterQty * t.minMaster) / 60;
-    const vh = (t.versionQty * t.minVersion) / 60;
+    const mh  = (t.masterQty  * t.minMaster)  / 60;
+    const vh  = (t.versionQty * t.minVersion) / 60;
     const sub = mh + vh;
-    totalH += sub;
+    baseTotal += sub;
 
     const r = ws.getRow(startRow + i);
     r.height = 24;
-    const vals = [i+1, t.name || '—', PRESETS[t.type]?.label || t.type, t.masterQty, t.minMaster, t.versionQty, t.minVersion, +mh.toFixed(2), +vh.toFixed(2), +sub.toFixed(2)];
+    const vals = [
+      i+1, t.name || '—', PRESETS[t.type]?.label || t.type,
+      t.masterQty, t.minMaster, t.versionQty, t.minVersion,
+      t.notes || '',
+      +mh.toFixed(2), +vh.toFixed(2), +sub.toFixed(2)
+    ];
     const isEven = i % 2 === 0;
     vals.forEach((v, ci) => {
       const cell = r.getCell(ci + 1);
       cell.value = v;
-      cell.font = ci >= 7 ? (ci === 9 ? fontMonoB : fontMono) : fontBody;
+      if      (ci === 10) cell.font = fontMonoB;
+      else if (ci >= 8)   cell.font = fontMono;
+      else if (ci === 7)  cell.font = fontNotes;
+      else                cell.font = fontBody;
       cell.fill = { type:'pattern', pattern:'solid', fgColor:{argb: isEven ? cSurface : cSurface2} };
-      cell.alignment = { vertical:'middle', horizontal: ci >= 3 ? 'center' : 'left' };
+      cell.alignment = { vertical:'middle', horizontal: (ci >= 3 && ci !== 7) ? 'center' : 'left' };
       cell.border = borders;
-      if (ci >= 7) cell.numFmt = '0.00';
+      if (ci >= 8) cell.numFmt = '0.00';
     });
   });
 
-  // Summary section
+  // Summary
   const sumStart = startRow + tasks.length + 1;
-
-  // Spacer row
   ws.getRow(sumStart - 1).height = 8;
 
-  const bufferH = totalH * buffer / 100;
-  const totalTasks = tasks.reduce((s,t) => s + t.masterQty + t.versionQty, 0);
-  const corrH = (totalTasks * corrRounds * corrMin) / 60;
-  const grand = totalH + bufferH + corrH;
+  const bufferH   = baseTotal * buffer / 100;
+  const totalQty  = tasks.reduce((s,t) => s + t.masterQty + t.versionQty, 0);
+  const corrH     = (totalQty * corrRounds * corrMin) / 60;
+  const grand     = baseTotal + bufferH + corrH;
 
   const summaryData = [
-    { label:'Base Total', value:+totalH.toFixed(2), color:cAccent },
-    { label:`Buffer (${buffer}%)`, value:+bufferH.toFixed(2), color:cOrange },
+    { label:'Base Total',                            value:+baseTotal.toFixed(2), color:cAccent  },
+    { label:`Buffer (${buffer}%)`,                   value:+bufferH.toFixed(2),   color:cOrange  },
     { label:`Corrections (${corrRounds}rnd × ${corrMin}min)`, value:+corrH.toFixed(2), color:cRed },
-    { label:'GRAND TOTAL', value:+grand.toFixed(2), color:cGreen, grand:true },
-    { label:'Total Days (8h/day)', value:+(grand/8).toFixed(2), color:cPurple },
-    { label:'Total Tasks', value:totalTasks, color:cDim, info:`${tasks.reduce((s,t)=>s+t.masterQty,0)} master + ${tasks.reduce((s,t)=>s+t.versionQty,0)} version` },
+    { label:'GRAND TOTAL',                           value:+grand.toFixed(2),     color:cGreen, grand:true },
+    { label:'Total Days (8h/day)',                   value:+(grand/8).toFixed(2), color:cPurple  },
+    { label:'Total Task Units',                      value:totalQty,              color:cDim,
+      info:`${tasks.reduce((s,t)=>s+t.masterQty,0)} master + ${tasks.reduce((s,t)=>s+t.versionQty,0)} version` },
   ];
 
-  // Summary header
-  ws.mergeCells(sumStart, 1, sumStart, 10);
-  const sumHeaderCell = ws.getCell(sumStart, 1);
-  sumHeaderCell.value = '📊  SUMMARY';
-  sumHeaderCell.font = { name:'Segoe UI', size:11, bold:true, color:{argb:cAccent} };
-  sumHeaderCell.fill = { type:'pattern', pattern:'solid', fgColor:{argb:cSurface} };
-  sumHeaderCell.border = borders;
+  ws.mergeCells(sumStart, 1, sumStart, 11);
+  const sumHead = ws.getCell(sumStart, 1);
+  sumHead.value  = '📊  SUMMARY';
+  sumHead.font   = { name:'Segoe UI', size:11, bold:true, color:{argb:cAccent} };
+  sumHead.fill   = { type:'pattern', pattern:'solid', fgColor:{argb:cSurface} };
+  sumHead.border = borders;
   ws.getRow(sumStart).height = 28;
 
   summaryData.forEach((item, i) => {
     const r = ws.getRow(sumStart + 1 + i);
     r.height = item.grand ? 30 : 24;
 
-    // Label spans cols 1-8
-    ws.mergeCells(sumStart + 1 + i, 1, sumStart + 1 + i, 9);
-    const labelCell = r.getCell(1);
-    labelCell.value = item.label;
-    labelCell.font = item.grand
+    ws.mergeCells(sumStart + 1 + i, 1, sumStart + 1 + i, 10);
+    const lc = r.getCell(1);
+    lc.value = item.label;
+    lc.font  = item.grand
       ? { name:'Segoe UI', size:11, bold:true, color:{argb:cWhite} }
       : fontLabel;
-    labelCell.fill = { type:'pattern', pattern:'solid', fgColor:{argb: item.grand ? cSurface2 : cSurface} };
-    labelCell.alignment = { vertical:'middle', horizontal:'right' };
-    labelCell.border = borders;
+    lc.fill  = { type:'pattern', pattern:'solid', fgColor:{argb: item.grand ? cSurface2 : cSurface} };
+    lc.alignment = { vertical:'middle', horizontal:'right' };
+    lc.border = borders;
 
-    // Value in col 10
-    const valCell = r.getCell(10);
-    valCell.value = item.value;
-    valCell.numFmt = item.label.includes('Tasks') ? '0' : '0.00';
-    valCell.font = item.grand ? fontGrand : { name:'Consolas', size:11, bold:true, color:{argb:item.color} };
-    valCell.fill = { type:'pattern', pattern:'solid', fgColor:{argb: item.grand ? cSurface2 : cSurface} };
-    valCell.alignment = { vertical:'middle', horizontal:'center' };
-    valCell.border = borders;
+    const vc = r.getCell(11);
+    vc.value  = item.value;
+    vc.numFmt = item.label.includes('Units') ? '0' : '0.00';
+    vc.font   = item.grand ? fontGrand : { name:'Consolas', size:11, bold:true, color:{argb:item.color} };
+    vc.fill   = { type:'pattern', pattern:'solid', fgColor:{argb: item.grand ? cSurface2 : cSurface} };
+    vc.alignment = { vertical:'middle', horizontal:'center' };
+    vc.border = borders;
   });
 
-  // Generate & download
-  const buf = await wb.xlsx.writeBuffer();
+  // Download — filename uses project name if available
+  const buf  = await wb.xlsx.writeBuffer();
   const blob = new Blob([buf], { type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = `estimation_${new Date().toISOString().slice(0,10)}.xlsx`;
+  const a    = document.createElement('a');
+  a.href     = URL.createObjectURL(blob);
+  const safe = (projName || 'estimation').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+  a.download = `${safe}_${new Date().toISOString().slice(0,10)}.xlsx`;
   a.click();
 }
 
-// Init with one empty row
-addTask();
+// Init
+loadState();
 </script>
 </body>
 </html>
