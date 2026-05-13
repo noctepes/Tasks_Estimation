@@ -789,10 +789,11 @@ async function exportXLSX() {
   const wb = new ExcelJS.Workbook();
   const ws = wb.addWorksheet('Estimation');
 
-  const cBg      = 'FF0F1117', cSurface  = 'FF1A1D27', cSurface2 = 'FF232733';
-  const cBorder  = 'FF333847', cText     = 'FFF0F1F5', cDim      = 'FFB8BCC8';
-  const cAccent  = 'FF6C9FFF', cGreen    = 'FF4ECB8D', cOrange   = 'FFF0A050';
-  const cRed     = 'FFF06060', cPurple   = 'FFA07CFF', cWhite    = 'FFFFFFFF';
+  // Spring CC Brand palette
+  const cBg      = 'FF282828', cSurface  = 'FF1C1916', cSurface2 = 'FF353330';
+  const cBorder  = 'FF444440', cText     = 'FFE5D2B8', cDim      = 'FFB9B9B1';
+  const cAccent  = 'FFFF3700', cGreen    = 'FF2DB87D', cOrange   = 'FFFF3700';
+  const cRed     = 'FFD03030', cPurple   = 'FFD7E8F8', cWhite    = 'FFFFFFFF';
 
   const borderThin = { style:'thin', color:{argb:cBorder} };
   const borders    = { top:borderThin, left:borderThin, bottom:borderThin, right:borderThin };
@@ -859,7 +860,7 @@ async function exportXLSX() {
     const cell = hRow.getCell(i + 1);
     cell.value = h;
     cell.font  = fontHead;
-    cell.fill  = { type:'pattern', pattern:'solid', fgColor:{argb:'FF667EEA'} };
+    cell.fill  = { type:'pattern', pattern:'solid', fgColor:{argb:cAccent} };
     cell.alignment = { vertical:'middle', horizontal: (i >= 3 && i !== 7) ? 'center' : 'left' };
     cell.border = borders;
   });
