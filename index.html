@@ -276,6 +276,26 @@ tbody tr:hover{background:rgba(108,159,255,.03)}
   .config-sliders{grid-template-columns:repeat(3,1fr)}
   .m-card-grid{grid-template-columns:repeat(2,1fr)}
 }
+
+/* ── SPRING CC BRAND ──────────────────────────────────────────── */
+:root{
+  --bg:#282828; --surface:#1c1916; --surface2:rgba(40,40,40,.9);
+  --surface3:#3d3d3d; --border:rgba(185,185,177,.2); --border-light:rgba(185,185,177,.38);
+  --text:#E5D2B8; --text-dim:#E5D2B8; --text-muted:rgba(229,210,184,.55);
+  --accent:#FF3700; --accent-dim:rgba(255,55,0,.12); --accent-glow:rgba(255,55,0,.25);
+  --green:#2DB87D; --green-dim:rgba(45,184,125,.12);
+  --orange:#FF3700; --orange-dim:rgba(255,55,0,.12);
+  --red:#D03030; --red-dim:rgba(208,48,48,.12);
+  --purple:#D7E8F8; --purple-dim:rgba(215,232,248,.12);
+}
+body{background:linear-gradient(135deg,#1c1916 0%,#282828 60%,#3d1800 100%);background-attachment:fixed}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:hover{filter:brightness(1.1);box-shadow:0 0 20px var(--accent-glow)}
+.header h1 span{background:var(--accent);color:#fff}
+.preset-chip:hover{border-color:var(--accent);color:var(--accent)}
+.preset-chip.active{background:var(--accent-dim);border-color:var(--accent);color:var(--accent)}
+.config-card .value-display{color:var(--accent)}
+.prog-fill,.progress-fill{background:var(--accent)}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.4.0/exceljs.min.js"></script>
 </head>
