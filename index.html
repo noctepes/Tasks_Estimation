@@ -487,6 +487,11 @@
       width: 80px
     }
 
+    /* Ẩn spinner mặc định của browser */
+    .t-input.num::-webkit-outer-spin-button,
+    .t-input.num::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0 }
+    .t-input.num { -moz-appearance: textfield; appearance: textfield }
+
     .t-input.task-name {
       min-width: 180px
     }
@@ -1487,14 +1492,12 @@
         <label id="lblConvTitle">⇄ Quy đổi Giờ ⇄ Phút</label>
         <div class="conv-row">
           <div class="conv-field">
-            <input id="convHours" type="text" inputmode="decimal" placeholder="0,45" oninput="convFromHours()"
-              onfocus="this.select()">
+            <input id="convHours" type="text" inputmode="decimal" placeholder="0,45" oninput="convFromHours()" onkeydown="arrowHours(event)" onfocus="this.select()">
             <span class="cf-unit" id="convHourUnit">giờ</span>
           </div>
           <span class="conv-eq">=</span>
           <div class="conv-field">
-            <input id="convMins" type="text" inputmode="decimal" placeholder="27" oninput="convFromMins()"
-              onfocus="this.select()">
+            <input id="convMins" type="text" inputmode="decimal" placeholder="27" oninput="convFromMins()" onkeydown="arrowMins(event)" onfocus="this.select()">
             <span class="cf-unit" id="convMinUnit">phút</span>
           </div>
         </div>
@@ -1936,10 +1939,10 @@
           <td class="row-num">${i + 1}</td>
           <td><input class="t-input task-name" value="${esc(t.name)}" placeholder="${esc(st.taskPlaceholder)}" onchange="updateField(${t.id},'name',this.value)"></td>
           <td><select class="t-select" onchange="updateField(${t.id},'type',this.value)">${presetOptions}</select></td>
-          <td><input class="t-input num" type="number" min="0" value="${t.masterQty}"  onchange="updateField(${t.id},'masterQty',this.value)"></td>
-          <td><input class="t-input num" type="number" min="0" value="${t.minMaster}"  onchange="updateField(${t.id},'minMaster',this.value)"></td>
-          <td><input class="t-input num" type="number" min="0" value="${t.versionQty}" onchange="updateField(${t.id},'versionQty',this.value)"></td>
-          <td><input class="t-input num" type="number" min="0" value="${t.minVersion}" onchange="updateField(${t.id},'minVersion',this.value)"></td>
+          <td><input class="t-input num" type="number" min="0" value="${t.masterQty}"  onchange="updateField(${t.id},'masterQty',this.value)"  onkeydown="arrowNum(event,${t.id},'masterQty')"></td>
+          <td><input class="t-input num" type="number" min="0" value="${t.minMaster}"  onchange="updateField(${t.id},'minMaster',this.value)"  onkeydown="arrowNum(event,${t.id},'minMaster')"></td>
+          <td><input class="t-input num" type="number" min="0" value="${t.versionQty}" onchange="updateField(${t.id},'versionQty',this.value)" onkeydown="arrowNum(event,${t.id},'versionQty')"></td>
+          <td><input class="t-input num" type="number" min="0" value="${t.minVersion}" onchange="updateField(${t.id},'minVersion',this.value)" onkeydown="arrowNum(event,${t.id},'minVersion')"></td>
           <td class="td-notes"><input class="t-input notes" value="${esc(t.notes || '')}" placeholder="${esc(st.notesPlaceholder)}" onchange="updateField(${t.id},'notes',this.value)"></td>
           <td class="computed">${mh.toFixed(2)}<span class="cm">${Math.round(mh * 60)} min</span></td>
           <td class="computed">${vh.toFixed(2)}<span class="cm">${Math.round(vh * 60)} min</span></td>
@@ -1959,10 +1962,10 @@
             <button class="m-delete" onclick="removeTask(${t.id})">✕</button>
           </div>
           <div class="m-card-grid">
-            <div class="m-card-field" onclick="this.querySelector('input').focus();this.querySelector('input').select()"><span>${st.mCardMasterQty}</span><input type="number" inputmode="numeric" min="0" value="${t.masterQty}"  onchange="updateField(${t.id},'masterQty',this.value)"  onfocus="this.select()"></div>
-            <div class="m-card-field" onclick="this.querySelector('input').focus();this.querySelector('input').select()"><span>${st.mCardMinMaster}</span><input type="number" inputmode="numeric" min="0" value="${t.minMaster}"  onchange="updateField(${t.id},'minMaster',this.value)"  onfocus="this.select()"></div>
-            <div class="m-card-field" onclick="this.querySelector('input').focus();this.querySelector('input').select()"><span>${st.mCardVersionQty}</span><input type="number" inputmode="numeric" min="0" value="${t.versionQty}" onchange="updateField(${t.id},'versionQty',this.value)" onfocus="this.select()"></div>
-            <div class="m-card-field" onclick="this.querySelector('input').focus();this.querySelector('input').select()"><span>${st.mCardMinVersion}</span><input type="number" inputmode="numeric" min="0" value="${t.minVersion}" onchange="updateField(${t.id},'minVersion',this.value)" onfocus="this.select()"></div>
+            <div class="m-card-field" onclick="this.querySelector('input').focus();this.querySelector('input').select()"><span>${st.mCardMasterQty}</span><input type="number" inputmode="numeric" min="0" value="${t.masterQty}"  onchange="updateField(${t.id},'masterQty',this.value)"  onkeydown="arrowNum(event,${t.id},'masterQty')"  onfocus="this.select()"></div>
+            <div class="m-card-field" onclick="this.querySelector('input').focus();this.querySelector('input').select()"><span>${st.mCardMinMaster}</span><input type="number" inputmode="numeric" min="0" value="${t.minMaster}"  onchange="updateField(${t.id},'minMaster',this.value)"  onkeydown="arrowNum(event,${t.id},'minMaster')"  onfocus="this.select()"></div>
+            <div class="m-card-field" onclick="this.querySelector('input').focus();this.querySelector('input').select()"><span>${st.mCardVersionQty}</span><input type="number" inputmode="numeric" min="0" value="${t.versionQty}" onchange="updateField(${t.id},'versionQty',this.value)" onkeydown="arrowNum(event,${t.id},'versionQty')" onfocus="this.select()"></div>
+            <div class="m-card-field" onclick="this.querySelector('input').focus();this.querySelector('input').select()"><span>${st.mCardMinVersion}</span><input type="number" inputmode="numeric" min="0" value="${t.minVersion}" onchange="updateField(${t.id},'minVersion',this.value)" onkeydown="arrowNum(event,${t.id},'minVersion')" onfocus="this.select()"></div>
           </div>
           <div class="m-card-result">
             <div class="m-res"><span>${st.mCardMaster}</span><b>${mh.toFixed(2)}h</b><span class="cm">${Math.round(mh * 60)} min</span></div>
@@ -2306,6 +2309,57 @@
       const safe = (projName || 'estimation').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
       a.download = `${safe}_${new Date().toISOString().slice(0, 10)}.xlsx`;
       a.click();
+    }
+
+    /* ── Arrow key stepping (number inputs in table) ──────────────────
+       ↑↓          → ±1
+       Shift+↑↓    → ±5
+    ─────────────────────────────────────────────────────────────────── */
+    function arrowNum(e, taskId, field) {
+      if (e.key !== 'ArrowUp' && e.key !== 'ArrowDown') return;
+      e.preventDefault();
+      const step = e.shiftKey ? 5 : 1;
+      const dir  = e.key === 'ArrowUp' ? 1 : -1;
+      const cur  = parseFloat(e.target.value) || 0;
+      const next = Math.max(0, cur + dir * step);
+      e.target.value = next;
+      updateField(taskId, field, next);
+      // render() xóa DOM → restore focus về đúng input sau khi re-render
+      const FIELD_ORDER = ['masterQty', 'minMaster', 'versionQty', 'minVersion'];
+      const fi = FIELD_ORDER.indexOf(field);
+      const ti = tasks.findIndex(t => t.id === taskId);
+      if (fi === -1 || ti === -1) return;
+      const row = document.getElementById('taskBody').querySelectorAll('tr')[ti];
+      if (row) {
+        const inp = row.querySelectorAll('input.t-input.num')[fi];
+        if (inp) { inp.focus(); inp.select(); }
+      }
+    }
+
+    /* ── Arrow key stepping (converter) ───────────────────────────────
+       ↑↓          → ±0.01h  /  ±1 min
+       Shift+↑↓    → ±0.25h  /  ±15 min
+    ─────────────────────────────────────────────────────────────────── */
+    function arrowHours(e) {
+      if (e.key !== 'ArrowUp' && e.key !== 'ArrowDown') return;
+      e.preventDefault();
+      const step = e.shiftKey ? 0.25 : 0.01;
+      const dir  = e.key === 'ArrowUp' ? 1 : -1;
+      const cur  = parseNum(document.getElementById('convHours').value) || 0;
+      const next = Math.max(0, parseFloat((cur + dir * step).toFixed(2)));
+      document.getElementById('convHours').value = next.toFixed(2).replace('.', ',');
+      convFromHours();
+    }
+
+    function arrowMins(e) {
+      if (e.key !== 'ArrowUp' && e.key !== 'ArrowDown') return;
+      e.preventDefault();
+      const step = e.shiftKey ? 15 : 1;
+      const dir  = e.key === 'ArrowUp' ? 1 : -1;
+      const cur  = parseNum(document.getElementById('convMins').value) || 0;
+      const next = Math.max(0, cur + dir * step);
+      document.getElementById('convMins').value = next;
+      convFromMins();
     }
 
     // Init
